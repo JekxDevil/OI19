@@ -4,7 +4,6 @@
 
 template <class T>
 Queue<T>::Queue(int _size) {
-	std::cout << "New Queue" << std::endl;
 	arrayItems = new T[_size];
 	_iLimit = _size;
 	_iHead = _iTail = _iItemsAmount = 0;
