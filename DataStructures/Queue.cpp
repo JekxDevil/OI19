@@ -21,19 +21,19 @@ void Queue<T>::Push(T _item){
 		exit(EXIT_FAILURE);
 	}
 	
-	arrayItems[++_iTail] = _item;
 	_iItemsAmount++;
+	arrayItems[++_iTail] = _item;
 }
 
 template <class T>
-void Queue<T>::Pop(){
+T Queue<T>::Pop(){
 	if(IsEmpty()){
 		std::cout << "Underflow - Is Empty!" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
-	_iHead++;
 	_iItemsAmount--;
+	return arrayItems[_iHead++];
 }
 
 template <class T>

@@ -17,7 +17,7 @@ class Queue{
 		Queue(int _size = SIZE);
 		T Peek();
 		void Push(T);
-		void Pop();
+		T Pop();
 		bool IsEmpty();
 		bool IsFull();
 		int Size();
