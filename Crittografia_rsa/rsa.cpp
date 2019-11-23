@@ -39,25 +39,46 @@ int main() {
 	return 0;
 }
 
-void decifra(int N, int d, int L, int *messaggio, char *plaintext) {
-    // DATI:
-    // N -> modulo
-    // d -> esponente di c (char)
-    // L -> lunghezza messaggio
-    // EVITO BUFFER OVERFLOW:
-    // (A+B) mod M = (A mod M + B mod M) mod M
-    // (A*B) mod M = (A mod M * B mod M) mod M
-    // carattere di fine stringa in plaintext[1]. (\n)
-    
-    for(int i=0; i<=L; i++)
-    {
-        int _iDecifrato = messaggio[i];
+//(A + B) mod M = (A mod M + B mod M) mod M
+//(A · B) mod M = (A mod M · B mod M) mod M
+void decifra(int N, int d, int L, int* messaggio, char* plaintext)
+{	
+	//TODO: when powera == powerb, then A == B. else B == A*cripto
 
-        for(int p=1; p<d; p++)
-            _iDecifrato *= messaggio[i];
+	long int A, B;
+	int power_a, power_b, cripto;
+	bool isOdd;
 
-        _iDecifrato = _iDecifrato % N;
-    }
+	isOdd = d % 2 == 1 ? true : false;
+	power_a = d >> 1;
+	power_b = isOdd ? power_a + 1 : power_a;
 
-    plaintext[L] = '\n';
+	//itering through cripto numbers
+	for(int i=0; i<L; i++){
+		A = 1;
+		B = 1;
+		cripto = messaggio[i];
+		bool isPowerBTurn;
+
+		//creating variable A and B for the property (A mod M · B mod M) mod M 
+		for(int num_potenza = 0, isPowerBTurn = false; num_potenza < d; num_potenza++){
+			
+			if(isPowerBTurn){
+				B = B % N * cripto % N;
+			} else {
+
+				if(num_potenza < power_a){
+					A = A % N * cripto % N;
+				} else {
+					isPowerBTurn = ~isPowerBTurn;
+					B = B % N * cripto % N;
+				}
+			}
+		}
+
+		//decrypted char assignment
+		plaintext[i] = A % N * B % N;
+	}
+
+	plaintext[L] = '\0';
 }
