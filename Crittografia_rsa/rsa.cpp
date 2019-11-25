@@ -43,36 +43,32 @@ int main() {
 //(A · B) mod M = (A mod M · B mod M) mod M
 void decifra(int N, int d, int L, int* messaggio, char* plaintext)
 {	
-	//TODO: when powera == powerb, then A == B. else B == A*cripto
-
-	long int A, B;
-	int power_a, power_b, cripto;
+	//TODO change * -> + , power -> *
+	long long int A, B, power_a;
 	bool isOdd;
 
 	isOdd = d % 2 == 1 ? true : false;
 	power_a = d >> 1;
-	power_b = isOdd ? power_a + 1 : power_a;
 
-	//itering through cripto numbers
-	for(int i=0; i<L; i++){
+	//itering through cripto numbers in array
+	for(long long int i=0; i<L; i++){
 		A = 1;
 		B = 1;
-		cripto = messaggio[i];
-		bool isPowerBTurn;
 
-		//creating variable A and B for the property (A mod M · B mod M) mod M 
-		for(int num_potenza = 0, isPowerBTurn = false; num_potenza < d; num_potenza++){
+		//(A · B) mod M = (A mod M · B mod M) mod M
+		for(int num_potenza = 0; num_potenza <= power_a; num_potenza++){
 			
-			if(isPowerBTurn){
-				B = B % N * cripto % N;
-			} else {
-
-				if(num_potenza < power_a){
-					A = A % N * cripto % N;
+			if(num_potenza == power_a){
+				
+				//power of b
+				if(isOdd){
+					B = A % N * messaggio[i] % N;
 				} else {
-					isPowerBTurn = ~isPowerBTurn;
-					B = B % N * cripto % N;
+					B = A;
 				}
+				
+			} else {
+				A = A % N * messaggio[i] % N;
 			}
 		}
 
