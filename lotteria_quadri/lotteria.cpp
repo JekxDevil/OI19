@@ -15,63 +15,59 @@ int quadri(int N, long long M, int* V);
 
 int quadri(int N, long long M, int* V)
 {
-    /*  DISPOSIZIONI:
-        Tantissima RAM. Pochissimo tempo. Come sprecare il piu' possibile la ram? Come rendere il codice piu' veloce possibile?
-    */
-
-    long long length = 0, sum = 0;
+	//inizializzazioni int64
+    long long length = 1, sum = 0;
 
     //avanzare per partire dal massimo in giu'
-    for(; length<N; length++){
-        sum+=V[length];
+    for(; length<=N; length++){
+        sum+=V[length-1];
+
         if(sum>M){
-	    length--;	
+	    	length--;
             break;
-	}
+		}
     }
 
     //lunghezza massima uguale array o 0 possibili contenuti
-    if(length == N)
-        return length;
-    else if(length <= 0)
-	return 0;
+    if(length-1 == N)
+        return N;
+    else if(length == 0)
+		return 0;
 
     //retrocedere
     bool found;
+	long long spanLimit = N-length;
 
     //iterare diminuendo lunghezza a ogni ciclo
-    for(long long _spanLimit=0;length>0;length--, _spanLimit++){
-	//printf("\n [Entro dentro ciclo tosto] \n");
-	//diamo per scontato che ogni ciclo sia il massimo ottenibile
+    for(;length>0;length--, spanLimit++){
         found = true;
 
-	//sommiamo tutte le possibili combinazioni di della lunghezza attuale
-	for(long long pivot=0; pivot<_spanLimit+1; pivot++){
-	    for(long long span=0; span<_spanLimit+1; span++){
-	        sum = V[pivot];
-	        
-		for(long long slider=pivot+span+1; slider<N && slider-pivot<length; slider++){
-		    sum += V[slider];
-		}
+		//sommiamo tutte le possibili combinazioni di della lunghezza attuale
+		for(long long pivot=0; pivot<=spanLimit; pivot++){
+			for(long long span=0; span<=spanLimit; span++){
+				sum = V[pivot];
+				
+				for(long long slider=pivot+span+1; slider-pivot<length; slider++){
+					sum += V[slider];
+				}
 
-		//array cattivo, esci e diminuisci lunghezza
-		if(sum>M){
-		    found=false;
-		    break;
-		}
-	    }	
+				//array cattivo, esci e diminuisci lunghezza
+				if(sum>M){
+					found=false;
+					break;
+				}
+			}	
 
-	    //se un caso eccede, si esce dal ciclo e si diminuisce la lunghezza
-	    if(!found){
-		break;
-	    }
-	}
+			//se un caso eccede, si esce dal ciclo e si diminuisce la lunghezza
+			if(!found){
+				break;
+			}
+		}
 	
-	//se tutti i casi buoni, massimale trovato, esco da ciclo
-	if(found){
-	   // printf("break caso buono: length = %d \n",length);
-	    break;
-	}
+		//se tutti i casi buoni, massimale trovato, esco da ciclo
+		if(found){
+			return length;
+		}
     }   
 
     return length;
