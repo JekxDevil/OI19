@@ -15,7 +15,7 @@ int quadri(int N, long long M, int* V);
 
 int quadri(int N, long long M, int* V)
 {
-	//inizializzazioni int64
+    //inizializzazioni int64
     long long length = 1, sum = 0;
 
     //avanzare per partire dal massimo in giu'
@@ -23,16 +23,16 @@ int quadri(int N, long long M, int* V)
         sum+=V[length-1];
 
         if(sum>M){
-	    	length--;
+	    length--;
             break;
-		}
+	}
     }
 
     //lunghezza massima uguale array o 0 possibili contenuti
     if(length-1 == N)
         return N;
     else if(length == 0)
-		return 0;
+	return 0;
 
     //retrocedere
     bool found;
@@ -45,29 +45,29 @@ int quadri(int N, long long M, int* V)
 		for(long long pivot=0; pivot<=spanLimit; pivot++){
 			for(long long span=0; span<=spanLimit; span++){
 				sum = V[pivot];
-				
+
 				for(long long slider=pivot+span+1; slider-pivot<length; slider++){
-					sum += V[slider];
+				    sum += V[slider];
 				}
 
 				//array cattivo, esci e diminuisci lunghezza
 				if(sum>M){
-					found=false;
-					break;
+				    found=false;
+				    break;
 				}
-			}	
+			}
 
 			//se un caso eccede, si esce dal ciclo e si diminuisce la lunghezza
 			if(!found){
-				break;
+			    break;
 			}
 		}
-	
+
 		//se tutti i casi buoni, massimale trovato, esco da ciclo
 		if(found){
-			return length;
+		    return length;
 		}
-    }   
+    }
 
     return length;
 }

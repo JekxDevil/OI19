@@ -24,7 +24,7 @@ int main() {
 	fscanf(fr, "%d %lld", &N, &M);
 	V = (int*)malloc(N * sizeof(int));
 	for (i0 = 0; i0 < N; i0++)
-    {
+    	{
 	    fscanf(fr, "%d", &V[i0]);
 	}
 
@@ -33,7 +33,7 @@ int main() {
 
 	// Writing output
 	fprintf(fw, "%d\n", B);
-	
+
 	fclose(fr);
 	fclose(fw);
 	return 0;
