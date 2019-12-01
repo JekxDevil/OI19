@@ -36,10 +36,9 @@ int quadri(int N, long long M, int* V)
 
     //retrocedere
     bool found;
-	long long spanLimit = N-length;
 
     //iterare diminuendo lunghezza a ogni ciclo
-    for(;length>0;length--, spanLimit++){
+    for(long long spanLimit=N-length;length>0;length--, spanLimit++){
         found = true;
 
 		//sommiamo tutte le possibili combinazioni di della lunghezza attuale
