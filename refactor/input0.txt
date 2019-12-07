@@ -1,0 +1,9 @@
+pippo
+
+#include <stdio.h>
+int main() { int x;
+    int pippo = 3;
+    pippo-=2;  // decrement pippo
+    char frase[] = "ciao pippo";
+    return pippo;
+}
