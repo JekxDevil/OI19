@@ -9,15 +9,16 @@ using namespace std;
 long long int N, K, Q, P, i, result;
 long long int V[MAXN];
 
-//-1 decrease, 0 se trovato, 1 se maggiore
+//-1 decrease, 0 found, 1 increase
 int IsSufficient(int min, int offset){
     int result;
 
-
+    
 
     return result;
 }
 
+//Calculate minimun of days needed for kill all bugs everywhere
 long long int GetDays() {
     long long int maxIndex = N-1, minIndex = 0;
     //1 step - find most efficient bug killer
@@ -50,8 +51,6 @@ int main() {
     for(i=0; i<N; i++)
         assert(1 == scanf("%d", &V[i]));
 
-    // insert your code here
-    sort(V, V+N, greater<long long int>());
     result = GetDays();
 
     printf("%d\n", result); // print the result
