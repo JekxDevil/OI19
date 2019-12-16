@@ -10,8 +10,8 @@ long long int N, K, Q, P, i, result;
 long long int V[MAXN];
 
 //-1 decrease, 0 found, 1 increase
-int IsSufficient(int min, int offset){
-    int result;
+int IsSufficient(int day){
+    int result = 0;
 
     
 
@@ -20,22 +20,69 @@ int IsSufficient(int min, int offset){
 
 //Calculate minimun of days needed for kill all bugs everywhere
 long long int GetDays() {
-    long long int maxIndex = N-1, minIndex = 0;
-    //1 step - find most efficient bug killer
-    long long int eff = Q > P ? Q : P;
-    long long int neff = Q > P ? P : Q;
+    long long days = 0;
+    long long most_bugs_populated_room = 0;
+    long long total_bugs_left = 0;
+    long long high_anti_insect;
+    long long low_anti_insect;
+    long long efficient_difference;
+    long long bugs_killed_per_day = (K * P) + ((N - K) * Q);
+    long long max_possible_days, min_possible_days;
 
-    //2 step - find min and max days
-    long long int minDays = V[0] / eff + (V[0] % eff == 0 ? 0 : 1);
-    long long int maxDays = V[0] / neff + (V[0] % neff == 0 ? 0 : 1);
-
-    //3 step - try days
-    long long int days = maxDays - minDays / 2;
-    int todo = IsSufficient(minDays, days);
+    //decreasing
+    sort(V, V+N, greater<long long int>());
     
-    while(todo != 0) {
-        days += todo;
-        todo = IsSufficient(minDays, days);
+    if(V[0] == 0){
+        days = 0;
+    } else {
+        most_bugs_populated_room = V[0];
+        
+        //calculating most populated room and total bugs
+        for(int i = 0; i < N; i++) {
+            total_bugs_left += V[i];
+        }
+
+        //p always greater
+        if(P < Q) {
+            int tmp = Q;
+            Q = P;
+            P = tmp;
+            high_anti_insect = N - K;
+            low_anti_insect = K;
+        }
+
+        efficient_difference = P - Q;
+        long long relative_min_days = total_bugs_left / bugs_killed_per_day;
+        long long min_anti_insect_days = most_bugs_populated_room / P;
+        long long max_anti_insect_days = most_bugs_populated_room / Q;
+
+        if(total_bugs_left % bugs_killed_per_day > 0)
+            relative_min_days++;
+
+        if(most_bugs_populated_room % P > 0)
+            min_anti_insect_days++;
+
+        if(most_bugs_populated_room % Q > 0)
+            max_anti_insect_days++;
+
+        min_possible_days = min(relative_min_days, min_anti_insect_days);   //max secondo prof
+        max_possible_days = max_anti_insect_days;
+
+        //continuare
+        switch (IsSufficient(days))
+        {
+        case -1:
+
+            break;
+        
+        case 0:
+
+            break;
+
+        case 1:
+
+            break;
+        }
     }
 
     return days;
