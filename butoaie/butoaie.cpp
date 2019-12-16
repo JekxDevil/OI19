@@ -4,14 +4,22 @@
 #include <bits/stdc++.h> 
 // constraints
 #define MAXN 200000
+#define DECREASE -1
+#define INCREASE 1
 using namespace std;
 // input data
 long long int N, K, Q, P, i, result;
 long long int V[MAXN];
 
+long long int array_test[MAXN];
+long long int* high_anti_insect;
+long long int* low_anti_insect;
+long long int efficient_difference;
+long long int bugs_killed_per_day;
+
 //-1 decrease, 0 found, 1 increase
 int IsSufficient(int day){
-    int result = 0;
+    short int result;
 
     
 
@@ -20,14 +28,11 @@ int IsSufficient(int day){
 
 //Calculate minimun of days needed for kill all bugs everywhere
 long long int GetDays() {
-    long long days = 0;
+    long long days;
     long long most_bugs_populated_room = 0;
     long long total_bugs_left = 0;
-    long long high_anti_insect;
-    long long low_anti_insect;
-    long long efficient_difference;
-    long long bugs_killed_per_day = (K * P) + ((N - K) * Q);
     long long max_possible_days, min_possible_days;
+    bugs_killed_per_day = (K * P) + ((N - K) * Q);
 
     //decreasing
     sort(V, V+N, greater<long long int>());
@@ -47,8 +52,8 @@ long long int GetDays() {
             int tmp = Q;
             Q = P;
             P = tmp;
-            high_anti_insect = N - K;
-            low_anti_insect = K;
+            *high_anti_insect = N - K;
+            low_anti_insect = &K;
         }
 
         efficient_difference = P - Q;
@@ -68,20 +73,23 @@ long long int GetDays() {
         min_possible_days = min(relative_min_days, min_anti_insect_days);   //max secondo prof
         max_possible_days = max_anti_insect_days;
 
-        //continuare
-        switch (IsSufficient(days))
-        {
-        case -1:
+        //binary search
+        short int flag = DECREASE;
 
-            break;
-        
-        case 0:
+        for(int i = 0; flag != 0; i++){
+            days = (max_anti_insect_days - min_anti_insect_days) / 2;
 
-            break;
-
-        case 1:
-
-            break;
+            //continuare
+            switch (flag = IsSufficient(days))
+            {
+            case DECREASE:
+                max_anti_insect_days = days;
+                break;
+            
+            case INCREASE:
+                min_anti_insect_days = days;
+                break;
+            }
         }
     }
 
