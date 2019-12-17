@@ -11,12 +11,12 @@ using namespace std;
 int N, K, Q, P, i, result;
 int V[MAXN];
 
-  int array_test[MAXN];
-  int* high_anti_insect;
-  int* weak_anti_insect;
-  int efficient_difference;
-  int bugs_killed_per_day;
-  int total_bugs_left;
+int array_test[MAXN];
+int* high_anti_insect;
+int* weak_anti_insect;
+int efficient_difference;
+int bugs_killed_per_day;
+int total_bugs_left;
 
 //-1 decrease, 1 increase
 int IsSufficient(int _day){
