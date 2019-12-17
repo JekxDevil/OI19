@@ -8,36 +8,60 @@
 #define INCREASE 1
 using namespace std;
 // input data
-long long int N, K, Q, P, i, result;
-long long int V[MAXN];
+int N, K, Q, P, i, result;
+int V[MAXN];
 
-long long int array_test[MAXN];
-long long int* high_anti_insect;
-long long int* low_anti_insect;
-long long int efficient_difference;
-long long int bugs_killed_per_day;
+  int array_test[MAXN];
+  int* high_anti_insect;
+  int* weak_anti_insect;
+  int efficient_difference;
+  int bugs_killed_per_day;
+  int total_bugs_left;
 
-//-1 decrease, 0 found, 1 increase
-int IsSufficient(int day){
-    short int result;
+//-1 decrease, 1 increase
+int IsSufficient(int _day){
+    int8_t result;
+    int weak_kills = Q * _day;
+    int left_kills = efficient_difference * _day;
+    int surely_completed;
 
-    
+    int still_bugs_index;
+    int i = 0;
+      int tmp;
+
+    do {
+        array_test[i] = V[i] - weak_kills;
+    } while (i < N && array_test[i++] > 0);
+
+    still_bugs_index = i - 1;
+    i = 0;
+
+    do{
+        tmp = array_test[i] - left_kills;
+
+        if(tmp > 0) {
+            result = INCREASE;
+        }
+    } while (still_bugs_index > i++);
+
+    if(tmp < 0)
+        result = DECREASE;
 
     return result;
 }
 
 //Calculate minimun of days needed for kill all bugs everywhere
-long long int GetDays() {
-    long long days;
-    long long most_bugs_populated_room = 0;
-    long long total_bugs_left = 0;
-    long long max_possible_days, min_possible_days;
+int GetDays() {
+    int days;
+    int most_bugs_populated_room = 0;
+    int max_possible_days, min_possible_days;
     bugs_killed_per_day = (K * P) + ((N - K) * Q);
+    total_bugs_left = 0;
 
     //decreasing
-    sort(V, V+N, greater<long long int>());
+    sort(V, V+N, greater<int>());
     
-    if(V[0] == 0){
+    if(V[0] == 0) {
         days = 0;
     } else {
         most_bugs_populated_room = V[0];
@@ -53,13 +77,13 @@ long long int GetDays() {
             Q = P;
             P = tmp;
             *high_anti_insect = N - K;
-            low_anti_insect = &K;
+            weak_anti_insect = &K;
         }
 
         efficient_difference = P - Q;
-        long long relative_min_days = total_bugs_left / bugs_killed_per_day;
-        long long min_anti_insect_days = most_bugs_populated_room / P;
-        long long max_anti_insect_days = most_bugs_populated_room / Q;
+        int relative_min_days = total_bugs_left / bugs_killed_per_day;
+        int min_anti_insect_days = most_bugs_populated_room / P;
+        int max_anti_insect_days = most_bugs_populated_room / Q;
 
         if(total_bugs_left % bugs_killed_per_day > 0)
             relative_min_days++;
@@ -70,13 +94,13 @@ long long int GetDays() {
         if(most_bugs_populated_room % Q > 0)
             max_anti_insect_days++;
 
-        min_possible_days = min(relative_min_days, min_anti_insect_days);   //max secondo prof
+        min_possible_days = max(relative_min_days, min_anti_insect_days);   //max secondo prof
         max_possible_days = max_anti_insect_days;
 
         //binary search
-        short int flag = DECREASE;
+        short int flag;
 
-        for(int i = 0; flag != 0; i++){
+        for(int i = 0; min_anti_insect_days != max_anti_insect_days; i++){
             days = (max_anti_insect_days - min_anti_insect_days) / 2;
 
             //continuare
@@ -90,6 +114,7 @@ long long int GetDays() {
                 min_anti_insect_days = days;
                 break;
             }
+
         }
     }
 
@@ -98,8 +123,8 @@ long long int GetDays() {
 
 int main() {
 //  uncomment the following lines if you want to read/write from files
-//  freopen("input.txt", "r", stdin);
-//  freopen("output.txt", "w", stdout);
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
 
     assert(2 == scanf("%d%d", &N, &K));
     assert(2 == scanf("%d%d", &P, &Q));
