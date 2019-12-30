@@ -9,11 +9,11 @@ char identifier[MAXL + 1];
 
 int main() {
     long long result = 0, index = 0;
-    bool isShortComment = false, isLongComment = false, slashFlag = false, asteriscFlag = false, isString = false, isNewWord = false, isMacro = false, isCorrect = false;
+    bool isShortComment = false, isLongComment = false, slashFlag = false, asteriscFlag = false, isString = false, isNewWord = false, isCorrect = false;
 
     //  uncomment the following lines if you want to read/write from files
-    //freopen("input1.txt", "r", stdin);
-    //freopen("output1.txt", "w", stdout);
+    freopen("input0.txt", "r", stdin);
+    freopen("output0.txt", "w", stdout);
     assert(1 == scanf("%s", identifier));
     char c;
     
@@ -57,41 +57,38 @@ int main() {
                     break;
 
                 case '\n':
-                    //short comment end
-                    if(isShortComment) isShortComment = false;
-                    if(isMacro) isMacro = false;
+                    //short comment ends (anyway)
+                    isShortComment = false;
                     isNewWord = true;
                     break;
                 
                 case '"':
-                    if(!isString) {
-                        isString = true;
-                    } else {
-                        isString = false;
-                    }
-                    break;
+                	if(!isShortComment && !isLongComment){
+                		isString = !isString ? true : false;
+                	}
 
-                case '#':
-                    if(!isString) isMacro = true;
+                    isNewWord = true;
                     break;
 
                 case '/':
 
-                    if(!slashFlag) {
-                        slashFlag = true;
-                    } else if(!isString && !isLongComment){//already flag true
+                    if(slashFlag && !isString && !isLongComment){//already flag true
                         isShortComment = true;
-                    } else if(!isString && isLongComment && asteriscFlag) {
+                    } else if(!isShortComment && !isString && isLongComment && asteriscFlag) {
                         isLongComment = false;
-                    }
+                    } else
+                        slashFlag = true;
                     
                     isNewWord = true;
                     break;
 
                 case '*':
                     //longcomment start
-                    if(slashFlag && !isString) isLongComment = true;
-                    asteriscFlag = true;
+                    if(slashFlag && !isString && !isShortComment) 
+                        isLongComment = true;
+                    else
+                        asteriscFlag = true;
+                    
                     isNewWord = true;
                     break;
 
@@ -100,7 +97,7 @@ int main() {
                     slashFlag = false;
                     asteriscFlag = false;
                     
-                    if(!isShortComment && !isLongComment && !isMacro && !isString && isNewWord) {
+                    if(!isShortComment && !isLongComment && !isString && isNewWord) {
                         
                         if(identifier[0] == c) {
                             index = 0;
