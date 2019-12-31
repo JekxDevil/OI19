@@ -12,6 +12,7 @@ long long result;
 long long my_index;
 bool isShortComment = false, isLongComment = false, isString = false, isNewWord = true, isCorrect = false;
 
+//switch characters by their syntax meaning and manage main boolean program values
 void Processing(char& ch){
     
     switch (ch) {
@@ -19,6 +20,7 @@ void Processing(char& ch){
                 isShortComment = false;
                 isString = false;
             case ' ':
+            case '\t':
             case '!':
             case '%':
             case '^':
@@ -37,14 +39,6 @@ void Processing(char& ch){
             case ':':
             case '<':
             case '>':
-            case '.':
-            case '\\':
-            case '#':
-            case '$':
-            case '\'':
-            case '`':
-            case '?':
-            case '@':
             case '~':
                 isNewWord = true;
                 break;
@@ -56,7 +50,7 @@ void Processing(char& ch){
                     
                     if(before == '*' && isLongComment) {
                         isLongComment = false;
-                        ch = '\0';//impedisco caso /* *// = commento corto true 
+                        ch = '\0';//avoid case /* *// = short comment true 
                     }
                 }
 
@@ -65,9 +59,10 @@ void Processing(char& ch){
 
             case '*':
                 if(!isString && !isShortComment) {
-                    if(before == '/'){
+
+                    if(before == '/') {
                         isLongComment = true;
-                        ch = '\0';  //impedisco caso /*/ inizializzazione e chiusura long comment 
+                        ch = '\0';  //avoid case /*/ 
                     }
                 }
 
@@ -75,9 +70,8 @@ void Processing(char& ch){
                 break;
             
             case '"':
-                if(!isShortComment && !isLongComment){
+                if(!isShortComment && !isLongComment)
                     isString = isString ? false : true; 
-                }
 
                 isNewWord = true;
                 break;
@@ -85,12 +79,12 @@ void Processing(char& ch){
             default:
 
                 if(!isShortComment && !isLongComment && !isString && isNewWord) {
+                    
                     if(identifier[0] == ch){
                         isCorrect = true;
                         my_index = 0;
-                    } else {
+                    } else
                         isCorrect = false;
-                    }
                 }
 
                 isNewWord = false;
@@ -98,40 +92,35 @@ void Processing(char& ch){
         }
 }
 
+//compare identifier if there's a first match, else pass character to the processing func
 void Scanning(char& ch){
-    //TODO funzione con switch? determinare se finito iscorrect con string o comment non letto, resto errato, da aggiornare 
-    if(isCorrect){
+
+    if(isCorrect) {
         my_index++;
         
-        if(identifier[my_index] != ch){
-            if(identifier[my_index] == '\0' && !isalnum(ch) && ch != '_'){
+        if(identifier[my_index] != ch) {
+
+            if(identifier[my_index] == '\0' && !isalnum(ch) && ch != '_')
                 result++;
-            }
 
             Processing(ch);
             isCorrect = false;
         }
 
-    } else {
+    } else
         Processing(ch);
-    }
 
     before = ch;
 }
 
 int main() {
     result = 0;
-
-    //  uncomment the following lines if you want to read/write from files
-    freopen("input2.txt", "r", stdin);
-    freopen("output2.txt", "w", stdout);
     assert(1 == scanf("%s", identifier));
     char c;
     
     //ascii reading
-    while ((c = getchar()) != EOF) {
+    while ((c = getchar()) != EOF)
         Scanning(c);
-    }
 
     printf("%lld\n",result);
     return 0;
