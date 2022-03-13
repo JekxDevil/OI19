@@ -1,2 +1,2 @@
-# Bostwana
+# Botswana
 Competitive Programming
