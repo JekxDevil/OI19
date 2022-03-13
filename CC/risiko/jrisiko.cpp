@@ -1,8 +1,14 @@
 #include <bits/c++.h>
 using namespace std;
+int K, M, N;
 
 int main (void) {
-    
+    cin >> K >> M >> N;
+    long long int power = pow(K, M+N);
+    // find numerator for input3
+    // generalize m, n scope in numerator (1, 1) for input 3
+    // calculate new numerator generalized
+    // divide by denom and find reciprocal by doing min(m,n) - [first probability found]
 
     return 0;
 }
