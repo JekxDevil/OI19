@@ -1,2 +1,3 @@
 # Botswana
-Competitive Programming
+
+Collection of competitive programming exercises.
