@@ -1,0 +1,39 @@
+#include <stdio.h>
+#define SPACE 32
+#define NEWLINE 10
+#define TRUE 255
+#define FALSE 0
+int main()
+{
+    unsigned long long int num_words = 0;
+    unsigned short int is_prev_word = FALSE, is_prev_spacing = TRUE;
+    unsigned short int is_word = is_prev_word, is_spacing = is_prev_spacing;
+    short int character = '\0';
+
+    while ((character = getchar()) != EOF)
+    {
+        is_word = character != SPACE && character != NEWLINE;
+        if (character == SPACE || character == NEWLINE)
+        {
+            is_spacing = TRUE;
+        }
+
+        // if current is space, before was a word and before the word there was a space
+        if (is_spacing && is_prev_word && is_prev_spacing)
+        {
+            num_words++;
+            is_word = FALSE;
+            is_spacing = TRUE;
+        }
+
+        is_prev_word = is_word;
+        is_prev_spacing = is_spacing;
+    }
+
+    if (is_prev_word)
+    {
+        num_words++;
+    }
+    printf("%lld\n", num_words);
+    return 0;
+}

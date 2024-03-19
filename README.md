@@ -2,14 +2,20 @@
 
 Collection of competitive programming exercises and writeups.
 
-# USI Programming Challenges
+# USI courses 
+
+## Programming Challenges
 Competitive Programming course held by prof Antonio Carzaniga.
 
+## Algorithms and Data Structures
+Course of algorithms held in the 2nd semester of the BSc Informatics @ USI 
+by prof Antonio Carzaniga.
 
-# Reply Challenges
-
-
-
+## Systems Programming
+Course of C low level programming with focus on optimization and memory management 
+held in the 3rd semester @ USI by prof Antonio Carzaniga.
+Assignments, midterm and final exams are strictly done on a computer and consists 
+on a problem sets akin to what the repository has.
 
 # OII solutions
 Problems solved from OII[^1] [training platform](https://training.olinfo.it/#/overview)
