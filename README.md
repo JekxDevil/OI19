@@ -2,12 +2,13 @@
 
 Collection of competitive programming exercises and writeups.
 
-# USI courses 
-
 # OII solutions
 Problems solved from OII[^1] [training platform](https://training.olinfo.it/#/overview)
 
 The ones marked with output "Case #i: ..." are from the Territorial selection.
+
+
+# USI courses 
 
 ## Programming Challenges
 Competitive Programming course held by prof Antonio Carzaniga.
