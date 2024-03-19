@@ -1,0 +1,10 @@
+course1:course3,course7
+course2:
+course3:course8,course9,course6
+course4:
+course5:course9
+course6:course4
+course7:course8,course10,course5,course6
+course8:course3,course4
+course9:course1,course5
+course10:course9,course5,course7
